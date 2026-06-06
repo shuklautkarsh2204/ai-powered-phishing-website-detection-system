@@ -1,0 +1,76 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+
+# =========================
+# Model artifacts (DO NOT track large/binary ML files)
+# =========================
+*.pkl
+*.onnx
+*.joblib
+
+# If you want to keep structure but ignore only large models:
+# extension/phishing_model.pkl
+# extension/feature_columns.pkl
+
+# =========================
+# Flask / backend
+# =========================
+instance/
+*.log
+
+# =========================
+# Environment variables
+# =========================
+.env
+.env.*
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# IDE / Editor
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# =========================
+# Node / Browser Extension (if you add npm later)
+# =========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =========================
+# Coverage / testing
+# =========================
+htmlcov/
+.coverage
+coverage.xml
+.pytest_cache/
+
+# =========================
+# Logs / temp files
+# =========================
+*.log
+tmp/
+temp/
