@@ -27,14 +27,19 @@ def predict(data: Features):
     ).reshape(1, -1)
 
     prediction = model.predict(x)[0]
-
-    print("\nReceived Features:")
-    print(data.features)
+    
+    probs = model.predict_proba(x)[0]
+    confidence = float(
+        max(probs)
+    )
 
     print("Prediction:")
     print(prediction)
+    
+    print("Confidence:")
+    print(confidence)
 
     return {
         "prediction": int(prediction),
-        "features": data.features
+        "confidence": confidence
     }

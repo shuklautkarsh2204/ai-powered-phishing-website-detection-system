@@ -1,3 +1,9 @@
+const DEBUG = false;
+
+if (DEBUG) {
+    console.log("Features: ", features);
+}
+
 function havingIPAddress(hostname) {
     return /^\d+\.\d+\.\d+\.\d+$/.test(hostname)
         ? 1
@@ -358,7 +364,9 @@ async function checkWebsite() {
 
         console.log(
             "Prediction:",
-            data.prediction
+            data.prediction,
+            "Confidence:",
+            data.confidence
         );
 
         if (
@@ -366,11 +374,19 @@ async function checkWebsite() {
         ) {
 
             alert(
-                "⚠️ Potentially Malicious Website Detected"
+                "⚠️ Potentially Malicious Website Detected\nConfidence: " + 
+                (data.confidence * 100).toFixed(2) + "%"
                 
             );
 
         } 
+        else {
+            alert(
+                "✅ Website Appears Safe\nConfidence: " +
+                (data.confidence * 100).toFixed(2) + "%"
+            );
+        }
+        
 
     } catch (err) {
 
