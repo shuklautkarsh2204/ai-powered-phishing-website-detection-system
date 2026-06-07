@@ -4,6 +4,154 @@ if (DEBUG) {
     console.log("Features: ", features);
 }
 
+function showBanner(
+    message,
+    confidence,
+    isPhishing
+) {
+
+    const oldBanner =
+        document.getElementById(
+            "ai-phishing-banner"
+        );
+
+    if (oldBanner) {
+        oldBanner.remove();
+    }
+
+    const banner =
+        document.createElement(
+            "div"
+        );
+
+    banner.id =
+        "ai-phishing-banner";
+
+    banner.innerHTML = `
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:8px;
+        ">
+            <strong>
+                🛡 AI Phishing Detector
+            </strong>
+
+            <span id="close-banner"
+                style="
+                    cursor:pointer;
+                    font-size:18px;
+                    margin-left:15px;
+                ">
+                ✕
+            </span>
+        </div>
+
+        <div>
+            ${message}
+        </div>
+
+        <div style="
+            margin-top:8px;
+            font-size:13px;
+        ">
+            Confidence:
+            ${confidence}%
+        </div>
+    `;
+
+    banner.style.position =
+        "fixed";
+
+    banner.style.top =
+        "20px";
+
+    banner.style.right =
+        "-400px";
+
+    banner.style.width =
+        "280px";
+
+    banner.style.padding =
+        "15px";
+
+    banner.style.zIndex =
+        "999999";
+
+    banner.style.borderRadius =
+        "12px";
+
+    banner.style.fontFamily =
+        "Arial, sans-serif";
+
+    banner.style.fontSize =
+        "14px";
+
+    banner.style.color =
+        "white";
+
+    banner.style.boxShadow =
+        "0 4px 15px rgba(0,0,0,0.3)";
+
+    banner.style.transition =
+        "right 0.5s ease";
+
+    banner.style.backgroundColor =
+        isPhishing
+            ? "#d9534f"
+            : "#28a745";
+
+    document.body.appendChild(
+        banner
+    );
+
+    setTimeout(() => {
+
+        banner.style.right =
+            "20px";
+
+    }, 100);
+
+    banner
+        .querySelector(
+            "#close-banner"
+        )
+        .addEventListener(
+            "click",
+            () => {
+
+                banner.style.right =
+                    "-400px";
+
+                setTimeout(
+                    () => banner.remove(),
+                    500
+                );
+
+            }
+        );
+
+    setTimeout(() => {
+
+        if (
+            document.body.contains(
+                banner
+            )
+        ) {
+
+            banner.style.right =
+                "-400px";
+
+            setTimeout(
+                () => banner.remove(),
+                500
+            );
+        }
+
+    }, 8000);
+}
+
 function havingIPAddress(hostname) {
     return /^\d+\.\d+\.\d+\.\d+$/.test(hostname)
         ? 1
@@ -208,6 +356,45 @@ function anchorFeature() {
     return 1;
 }
 
+function sfhFeature() {
+    const forms = document.forms;
+
+    if(forms.length === 0){
+        return -1;
+    }
+
+    for (const form of forms){
+        const action = form.getAttribute("action");
+
+        if (!action || action === "#" || action.toLowerCase().startsWith("javascript")){
+            return 1;
+        }
+    }
+    return -1;
+}
+
+function submittingToEmailFeature() {
+    const forms = document.forms;
+
+    for (const form of forms){
+        const action = form.getAttribute("action");
+
+        if (action && action.toLowerCase().startsWith("mailto:")){
+            return 1;
+        }
+    }
+    return -1;
+}
+
+function IframeFeatures(){
+    const iframes = document.querySelectorAll("iframe");
+
+    if (iframes.length > 0){
+        return 1;
+    }
+    return -1;
+}
+
 function linksInTagsFeature() {
 
     const tags = [
@@ -257,6 +444,42 @@ function linksInTagsFeature() {
         return 0;
 
     return 1;
+}
+
+function redirectFeature() {
+    const redirects = performance.getEntriesByType("navigation")[0];
+
+    if ( redirects && redirects.redirectCount > 0){
+        return 1;
+    }
+    return -1;
+}
+
+function rightClickFeature() {
+    if (document.oncontextmenu) {
+        return 1;
+    }
+    return -1;
+}
+
+function linksPointingFeature() {
+    const anchors = document.querySelectorAll("a");
+
+    const internal = [...anchors].filter(a => {
+        try {
+            return (new URL(a.href).hostname === location.hostname);
+        } catch {
+            return false;
+        }
+    }).length;
+
+    if (internal === 0) {
+        return 1;
+    }
+    if (internal <= 2){
+        return 0;
+    }
+    return -1;
 }
 
 function extractFeatures() {
@@ -312,6 +535,24 @@ function extractFeatures() {
     features[14] =
         linksInTagsFeature();
 
+    features[15] =
+        sfhFeature();
+
+    features[16] =
+        submittingToEmailFeature();
+
+    features[22] =
+        IframeFeatures();
+    
+    features[18] = 
+        redirectFeature();
+
+    features[20] = 
+        rightClickFeature();
+    
+    features[29] = 
+        linksPointingFeature();    
+
     return features;
 }
 
@@ -341,7 +582,13 @@ async function checkWebsite() {
           HTTPS_token: features[11],
           Request_URL: features[12],
           URL_of_Anchor: features[13],
-          Links_in_tags: features[14]
+          Links_in_tags: features[14],
+          SFH: features[15],
+          Submitting_to_email: features[16],
+          Iframe: features[22],
+          redirect: features[18],
+          right_click: features[20],
+          links_pointing: features[29]
         });
 
         const response =
@@ -373,17 +620,18 @@ async function checkWebsite() {
             data.prediction === 1
         ) {
 
-            alert(
-                "⚠️ Potentially Malicious Website Detected\nConfidence: " + 
-                (data.confidence * 100).toFixed(2) + "%"
-                
+            showBanner(
+                "⚠️ Potentially Malicious Website Detected",
+                data.confidence,
+                true
             );
 
         } 
         else {
-            alert(
-                "✅ Website Appears Safe\nConfidence: " +
-                (data.confidence * 100).toFixed(2) + "%"
+            showBanner(
+                "✅ Website Appears Safe",
+                data.confidence,
+                false
             );
         }
         
@@ -392,8 +640,10 @@ async function checkWebsite() {
 
         console.error(err);
 
-        alert(
-            "❌ Prediction Request Failed"
+        showBanner(
+            "❌ Prediction Request Failed",
+            0,
+            null
         );
     }
 }
