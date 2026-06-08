@@ -591,6 +591,8 @@ async function checkWebsite() {
           links_pointing: features[29]
         });
 
+        const hostname = location.hostname;
+
         const response =
             await fetch(
                 "http://127.0.0.1:8000/predict",
@@ -600,8 +602,10 @@ async function checkWebsite() {
                         "Content-Type":
                             "application/json"
                     },
+
                     body: JSON.stringify({
-                        features
+                        features,
+                        domain: hostname
                     })
                 }
             );
@@ -622,7 +626,7 @@ async function checkWebsite() {
 
             showBanner(
                 "⚠️ Potentially Malicious Website Detected",
-                data.confidence,
+                (data.confidence)*100,
                 true
             );
 
@@ -630,7 +634,7 @@ async function checkWebsite() {
         else {
             showBanner(
                 "✅ Website Appears Safe",
-                data.confidence,
+                (data.confidence)*100,
                 false
             );
         }

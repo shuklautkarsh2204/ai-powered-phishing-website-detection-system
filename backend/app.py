@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import joblib
 import numpy as np
 from pydantic import BaseModel
+from domain_age import age_of_domain_feature
 
 app = FastAPI()
 app.add_middleware(
@@ -17,12 +18,19 @@ model = joblib.load('phishing_model.pkl')
 
 class Features(BaseModel):
     features: list
-    
+    domain: str
+
 @app.post("/predict")
 def predict(data: Features):
 
+    features = data.features.copy()
+    features[23] = age_of_domain_feature(data.domain)
+    
+    print("Domain:", data.domain)
+    print("Age Feature: ", features[23])
+    
     x = np.array(
-        data.features,
+        features,
         dtype=np.float32
     ).reshape(1, -1)
 
