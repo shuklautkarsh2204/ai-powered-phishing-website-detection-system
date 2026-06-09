@@ -162,7 +162,7 @@ cd ai-powered-phishing-detection-system
 ## 2. Install Dependencies
 
 ```bash
-pip install fastapi uvicorn scikit-learn pandas numpy joblib python-whois
+pip install -r requirements.txt
 ```
 
 ## 3. Start Backend Server
