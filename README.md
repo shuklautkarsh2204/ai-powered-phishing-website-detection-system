@@ -257,7 +257,7 @@ Confidence: 93.1%
 
 ---
 
-## 📈 Current Capabilities
+# 📈 Current Capabilities
 
 - Analyzes 20+ phishing indicators
 - Real-time browser scanning
