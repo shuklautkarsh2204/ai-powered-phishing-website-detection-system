@@ -257,19 +257,14 @@ Confidence: 93.1%
 
 ---
 
-# 📈 Future Improvements
+## 📈 Current Capabilities
 
-- DNS Record Analysis
-- Domain Registration Length Analysis
-- Google Index Verification
-- Website Reputation Scoring
-- Threat Intelligence Integration
-- Scan History Dashboard
-- Cloud Deployment
-- Explainable AI (XAI)
-- ONNX Runtime Inference
-- Browser Popup Dashboard
-- Risk-Level Visualization
+- Analyzes 20+ phishing indicators
+- Real-time browser scanning
+- Machine learning classification (~96.8% accuracy)
+- Domain age intelligence using WHOIS
+- Confidence-based risk assessment
+- Floating security banner alerts
 
 ---
 
