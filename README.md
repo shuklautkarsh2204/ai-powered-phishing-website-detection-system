@@ -188,7 +188,7 @@ http://127.0.0.1:8000
 edge://extensions
 OR
 chrome://extensions
-The goalis to reach the extension page.
+The goal is to reach the extension page.
 ```
 
 3. Enable **Developer Mode**
