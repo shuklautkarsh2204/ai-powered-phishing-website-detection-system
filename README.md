@@ -6,7 +6,7 @@ The system analyzes website URLs, page structure, forms, redirects, embedded con
 
 ---
 
-# 🚀 Features
+#  Features
 
 ## Browser-Side Analysis
 
@@ -43,7 +43,7 @@ Additional security signals are computed on the backend:
 
 ---
 
-# 🏗️ System Architecture
+#  System Architecture
 
 ```text
 Browser Extension
@@ -69,7 +69,7 @@ Security Banner Display
 
 ---
 
-# 🧠 Machine Learning Model
+#  Machine Learning Model
 
 ## Algorithm
 
@@ -95,7 +95,7 @@ The model is trained on a phishing website dataset containing:
 
 ---
 
-# 🛠️ Tech Stack
+#  Tech Stack
 
 ## Frontend
 
@@ -122,7 +122,7 @@ The model is trained on a phishing website dataset containing:
 
 ---
 
-# 📂 Project Structure
+#  Project Structure
 
 ```text
 ai-phishing-detection/
@@ -149,7 +149,7 @@ ai-phishing-detection/
 
 ---
 
-# ⚙️ Installation
+#  Installation
 
 ## 1. Clone Repository
 
@@ -197,7 +197,7 @@ The goal is to reach the extension page.
 
 ---
 
-# 🔍 Detection Pipeline
+#  Detection Pipeline
 
 ### Step 1
 
@@ -233,7 +233,7 @@ A security banner is displayed showing:
 
 ---
 
-# 🖥️ User Interface
+#  User Interface
 
 The extension displays a floating security banner.
 
@@ -257,7 +257,7 @@ Confidence: 93.1%
 
 ---
 
-# 📈 Current Capabilities
+#  Current Capabilities
 
 - Analyzes 20+ phishing indicators
 - Real-time browser scanning
@@ -268,7 +268,7 @@ Confidence: 93.1%
 
 ---
 
-# 🎯 Key Highlights
+#  Key Highlights
 
 - Real-Time Website Analysis
 - Browser Extension Integration
@@ -281,12 +281,12 @@ Confidence: 93.1%
 ---
 
 
-# 📜 License
+#  License
 
 This project is licensed under the MIT License.
 
 ---
-## 👨‍💻 Author
+#  Author
 
 Developed by **Utkarsh Shukla**  
 AI/ML Enthusiast | Cybersecurity Learner | Python Developer
